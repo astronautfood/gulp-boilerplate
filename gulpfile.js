@@ -27,18 +27,24 @@ gulp.task('styles', () => {
         .pipe(concat('style.css'))
         .pipe(cleancss())
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest('./public/styles'))
+        .pipe(gulp.dest('./dist/styles'))
 });
 
-gulp.task('images', () => {
-    return gulp.src('dev/images/**/*.+(png|jpg|gif|svg)')
+gulp.task('assets', () => {
+    return gulp.src('dev/assets/**/*.+(png|jpg|gif|svg)')
         .pipe(cache(imagemin([
             imagemin.gifsicle({ interlaced: true }),
             imagemin.jpegtran({ progressive: true }),
             imagemin.optipng({ optimizarionLevel: 5 })
         ])))
-        .pipe(gulp.dest('public/assets'))
+        .pipe(gulp.dest('./dist/assets'))
 });
+
+gulp.task('fonts', () => {
+    return gulp.src('app/fonts/**/*')
+        .pipe(gulp.dest('./dist/fonts'))
+})
+
 
 gulp.task('js', () => {
     browserify('dev/scripts/app.js', { debug: true })
@@ -53,7 +59,7 @@ gulp.task('js', () => {
         }))
         .pipe(source('app.js'))
         .pipe(buffer())
-        .pipe(gulp.dest('public/scripts'))
+        .pipe(gulp.dest('dist/scripts'))
         .pipe(reload({ stream: true }));
 });
 
@@ -65,9 +71,9 @@ gulp.task('bs', () => {
     });
 });
 
-gulp.task('default', ['bs', 'styles', 'html', 'images', 'js'], () => {
+gulp.task('default', ['bs', 'styles', 'html', 'assets', 'font', 'js'], () => {
     gulp.watch('dev/**/*.js', ['js']);
     gulp.watch('dev/**/*.scss', ['styles']);
-    gulp.watch('./public/styles/style.css', reload);
+    gulp.watch('./dist/styles/style.css', reload);
     gulp.watch('./index.html', reload);
 });
