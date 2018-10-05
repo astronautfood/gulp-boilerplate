@@ -41,7 +41,7 @@ gulp.task('assets', () => {
 });
 
 gulp.task('fonts', () => {
-    return gulp.src('app/fonts/**/*')
+    return gulp.src('dev/fonts/**/*')
         .pipe(gulp.dest('./dist/fonts'))
 })
 
@@ -71,7 +71,7 @@ gulp.task('bs', () => {
     });
 });
 
-gulp.task('default', ['bs', 'styles', 'html', 'assets', 'font', 'js'], () => {
+gulp.task('default', ['bs', 'styles', 'html', 'assets', 'fonts', 'js'], () => {
     gulp.watch('dev/**/*.js', ['js']);
     gulp.watch('dev/**/*.scss', ['styles']);
     gulp.watch('./dist/styles/style.css', reload);
